@@ -1,0 +1,155 @@
+/* Structure */
+body {
+    margin: auto;
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: crimson;
+}
+
+section {
+    text-align: center;
+}
+
+.main-crafts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; 
+    align-content: flex-start; 
+    padding: 0px;
+    margin: 10px;
+    background-color: white;
+    color: black;
+}
+
+.main-crafts .craft-card {    
+    flex: 1 1 auto; 
+    margin: 10px; 
+    box-sizing: border-box; 
+    max-width: calc(33.33% - 20px); 
+}
+
+.main-crafts .craft-card img {
+    max-width: 100%; 
+    height: auto; 
+}
+
+.craft-photo-small {
+    width: 200px;
+    height: 100%;
+    padding-right: 10px;
+    margin: 10px;
+}
+
+.expanded-info {
+    display: flex;
+    border: 3px solid white;
+    flex-wrap: wrap;
+    color: white;
+    
+    background-color: white;
+}
+
+.craft-details {    
+    display: block;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.craft-details-header {    
+    text-align: left;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: left;
+    color:white;    
+}
+
+main {
+    background-color: antiquewhite;
+    padding-bottom: 10px;
+}
+
+#main-header {
+    background-color: white;
+    color: white;
+    padding-bottom: 0px;
+}
+
+#main-content {
+    background-color: antiquewhite;
+    padding: 5px;
+    margin: auto;
+    text-align: center;
+}
+
+#main-footer {
+    background-color: white;
+    color: black;
+    padding: 5px;
+}
+
+#main-footer p {
+    text-align: center;
+}
+
+
+/* Navigation */
+
+
+/* Typopgraphy */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#main-header h1 {
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 0;
+}
+
+#main-content {
+    margin-left: 5px;
+}
+
+#main-content h4 {
+    text-align: center;
+    padding-bottom: none;
+    margin: auto;
+    margin-bottom: none;
+}
+
+/* Larger Resolutions */
+@media (min-width: 900px) {
+
+    .main-crafts .craft-card {
+        max-width: calc(50% - 20px); /* Two items per row for smaller screens */
+    }
+
+    #main-content {
+        width: 100%;
+        margin: auto;
+        text-align: center;
+    }
+
+    section {
+        text-align: center;
+        margin: auto;
+        vertical-align: top;
+
+    } 
+}
+
+@media (max-width: 576px) { /* Adjust the breakpoint as needed */
+    .main-crafts .craft-card {
+        max-width: calc(100% - 20px); /* One item per row for even smaller screens */
+    }
+}
