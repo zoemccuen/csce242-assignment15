@@ -14,6 +14,39 @@
         <h1>Buy and Sell Crafts</h1>
         <span onclick="document.getElementById('dialog').style.display='none'"
             class="w3-button w3-display-topright">&times;</span>
+            <section id="dialog-details">
+                <form id="add-crafts-form" method="post" class="hidden">
+                    <p>
+                        <label for="name ">Name:</label>
+                        <input type="text" id="name" name="name" required />
+                    </p>
+                    <p>
+                        <label for="description">Description:</label>
+                        <input type="text" id="description" name="description" required />
+                    </p>
+        
+                    <section class="columns">
+                        <p id="img-prev-section">
+                            <img id="img-prev">
+                        </p>
+                        <p>
+                            <label for="img">Select An Image:</label>
+                            <input type="file" id="img" name="img" accept="image/*" />
+                        </p>
+                    </section>
+        
+                    <p id="supplies-p ">
+                        <label class="inline">Supplies:</label>
+                        <a href="#" id="add-supplies">Add Supply</a>
+                        <section id="supplies-boxes"></section>
+                    </p>
+                    <p>
+                        <button type="Cancel">Cancel</button>
+                        <button type="Save">Save</button>
+                    </p>
+                </form>
+
+                <section id="craft-details" class="hidden">
     </header>
     <main>
         <div id="main-content">
