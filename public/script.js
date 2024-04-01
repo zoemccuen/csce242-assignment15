@@ -120,8 +120,7 @@ const modalClose = (theName) => {
 }
 
 const loadCraft = async () => {
-    //const url = "https://node-express-h0b8.onrender.com:3000/api/crafts";
-    const url = "http://localhost:3000/api/crafts";
+    const url = "https://csce242-assignment15-yxmp.onrender.com:3000/api/crafts";
     try {
         const craft = await Craft.fetch(url);
         return await craft;
