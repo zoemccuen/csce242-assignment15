@@ -1,10 +1,29 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const app = express();
-const multer  = require('multer')
-const upload = multer({dest: 'images/' });
+const Joi = require("joi");
+const multer = require("multer");
+app.use(express.static("public"));
+app.use("/uploads", express.static("uploads"));
+app.use(express.json());
+const cors = require("cors");
+app.use(cors());
 
 app.use(express.static("public"));
+
+const mongoose = require("mongoose");
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./public/images/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
 
 //testdb is name of database, it will automatically make it
 mongoose

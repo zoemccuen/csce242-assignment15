@@ -295,6 +295,12 @@ const loadForm = async () => {
     }
 }
 
+const resetForm = () => {
+    document.getElementByID("craft-form").reset();
+    document.getElementByID("supplies-list").innerHTML = "";
+    document.getElementByID("preview").src = "https://place-hold.it/200x300";
+}
+
 window.onload = () => {
     initGallery();
     
