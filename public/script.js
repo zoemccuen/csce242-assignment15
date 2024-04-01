@@ -116,6 +116,9 @@ const modalOpen = (theName) => {
 }
 
 const modalClose = (theName) => {
+    const theForm = document.getElementById("add-crafts-form");
+    theForm.reset();
+    document.getElementById("img-prev").src = "";
     document.getElementById(theName).style.display = "none";
 }
 
@@ -138,7 +141,8 @@ const toTitleCase = str => {
 
 //If the input for supplies is not empty, then add a new text input to the form and drop the button
 const addSupplies = () => {
-    const suppliesTable = document.getElementById("supplies-table");    
+    const theForm = document.getElementById("add-crafts-form");
+    const suppliesTable = document.getElementById("supplies-table");
     const currentSupplies = suppliesTable.querySelectorAll("input.short-input");
     const lastRow = document.getElementById("add-supplies");
     let supplyCount = currentSupplies.length;
@@ -146,8 +150,8 @@ const addSupplies = () => {
         const newRow = document.createElement("tr");
         let newSupplyData = "<td class='right'>&nbsp;</td>";
         newSupplyData += "<td class='left'>";
-        newSupplyData += "<input class='short-input' type='text' id='supplies-" + supplyCount + "'";
-        newSupplyData +=  " value='" + currentSupplies[supplyCount - 1].value + "' required /></td></tr>";
+        newSupplyData += "<input class='short-input' type='text' id='supplies-" + supplyCount + "' name='supplies-" + supplyCount + "' ";
+        newSupplyData += " value='" + currentSupplies[supplyCount - 1].value + "' required /></td></tr>";
         newRow.innerHTML = newSupplyData;
         // Check if lastRow is a direct child of suppliesTable
         if (lastRow.parentNode === suppliesTable.querySelector("tbody")) {
@@ -161,7 +165,7 @@ const addSupplies = () => {
 
 const initGallery = async () => {
     const fileInput = document.getElementById('file-button');
-    const imgPrev = document.getElementById('img-prev');    
+    const imgPrev = document.getElementById('img-prev');
     let craftArray = await loadCraft();
     let photoGallery = document.getElementById("craft-section");
 
@@ -175,46 +179,45 @@ const initGallery = async () => {
     document.getElementById("add-craft-cancel").onclick = () => { modalClose("add-craft"); };
     document.getElementById("add-supply").onclick = () => { addSupplies(); };
     document.getElementById("add-crafts-form").reset();
+    document.getElementById("img-prev").src = "";
 
-    fileInput.addEventListener('change', function() {
+    fileInput.addEventListener('change', function () {
         const file = this.files[0]; // Get the selected file
         if (file) {
             const reader = new FileReader(); // Create a new FileReader object
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 imgPrev.src = e.target.result; // Set the image source to the uploaded file's data URL
             }
-            reader.readAsDataURL(file); // Read the uploaded file as a data URL
+            reader.readAsDataURL(file); // Read the uploaded file as a data URL            
         } else {
             imgPrev.src = '#'; // Reset the image source if no file is selected
         }
-    });    
+    });
 }
 
-const addEditCraft = async (e) => {
-    e.preventDefault();
-    const form = document.getElementById("craft-form");
+const addEditCraft = async () => {
+    const form = document.getElementById("add-crafts-form");
     const formData = new FormData(form);
-    let response;
-    formData.append("supplies", getSupplies());
-
+    const file = document.getElementById("file-button").files[0];
+    formData.append('image', file);
+    let response;    
     console.log(...formData);
+    console.log("in post");
+    response = await fetch("/api/crafts", {
+        method: "POST",
+        body: formData,
+    });
 
-    if (form._id.value.trim() == "") {
-        console.log("in post");
-        response = await fetch("/api/crafts", {
-            method: "POST",
-            body: formData,
-        });
-    } else {
-
-        console.log("in put");
-        response = await fetch(`/api/crafts/${form._id.value}`, {
-            method: "PUT",
-            body: formData
-        });
-    }
+    modalClose("add-craft");
 }
 
 window.onload = () => {
     initGallery();
+
+    if (document.getElementById("add-crafts-form") != null) {
+        document.getElementById("add-crafts-form").addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent default form submission
+        });
+        document.getElementById("add-crafts-form").onsubmit = addEditCraft;
+    }
 }
