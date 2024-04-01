@@ -8,10 +8,7 @@ app.use(express.json());
 const cors = require("cors");
 app.use(cors());
 
-app.use(express.static("public"));
-
 const mongoose = require("mongoose");
-
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -22,7 +19,6 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
 
 
 //testdb is name of database, it will automatically make it
