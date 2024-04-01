@@ -1,10 +1,10 @@
 const express = require("express");
-const app = express();
-app.use(express.static("public"));
-
-const upload = multer({ storage: storage });
-
 const mongoose = require("mongoose");
+const app = express();
+const multer  = require('multer')
+const upload = multer({dest: 'images/' });
+
+app.use(express.static("public"));
 
 //testdb is name of database, it will automatically make it
 mongoose
@@ -21,7 +21,7 @@ const schema = new mongoose.Schema({
   supplies: [String],
 });
 
-const Craft = mongoose.model("Craft", craftSchema);
+//const Craft = mongoose.model("Craft", craftSchema);
 
 
 async function createMessage() {

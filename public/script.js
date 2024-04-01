@@ -90,16 +90,16 @@ class Craft {
             craftText += "<li>" + toTitleCase(craftSupply) + "</li>";
         });
         craftText += "</li>";
-        
-        craftDetails.innerHTML = craftText;        
+
+        craftDetails.innerHTML = craftText;
 
         /* Create div to contain the expanded text and image */
         const infoCard = document.createElement("div");
-        infoCard.classList.add("craft-details");        
+        infoCard.classList.add("craft-details");
         infoCard.appendChild(heading);
         infoCard.appendChild(craftDetails);
 
-        /* Put InfoCard into the modal content under the close button */        
+        /* Put InfoCard into the modal content under the close button */
         contentDiv.appendChild(infoCard);
 
         /* Add the inside stuff to the modal dialog */
@@ -120,7 +120,7 @@ const modalClose = (theName) => {
 }
 
 const loadCraft = async () => {
-    const url = "https://node-express-h0b8.onrender.com:3000/api/crafts";
+    const url = "https://csce242-assignment15-yxmp.onrender.com:3000/api/crafts";
     try {
         const craft = await Craft.fetch(url);
         return await craft;
@@ -149,16 +149,8 @@ const initGallery = async () => {
 
         })
     }
+    document.getElementById("icon-add").onclick = () => { modalOpen("add-craft"); };
 }
-
-window.onload = () => {
-    initGallery();
-};
-
-
-
-
-
 
 class Form {
     constructor(id, name, image, description, supplies) {
@@ -237,7 +229,7 @@ class Form {
         heading.classList.add("form-details-header");
         heading.innerText = this.name;
 
-        /* Create the text div and elements */
+        /* Create the text div and elements NEED TO GO OVER MORE*/
         const formDetails = document.createElement("p");
         let formText = "";
         craftText += "<p>" + this.description + "</p>";
@@ -247,16 +239,16 @@ class Form {
             formText += "<li>" + toTitleCase(formSupply) + "</li>";
         });
         formText += "</li>";
-        
-        formDetails.innerHTML = formText;        
+
+        formDetails.innerHTML = formText;
 
         /* Create div to contain the expanded text and image */
         const infoCard = document.createElement("div");
-        infoCard.classList.add("craft-details");        
+        infoCard.classList.add("craft-details");
         infoCard.appendChild(heading);
         infoCard.appendChild(craftDetails);
 
-        /* Put InfoCard into the modal content under the close button */        
+        /* Put InfoCard into the modal content under the close button */
         contentDiv.appendChild(infoCard);
 
         /* Add the inside stuff to the modal dialog */
@@ -274,27 +266,27 @@ const addEditCraft = async (e) => {
     const formData = new FormData(form);
     let response;
     formData.append("supplies", getSupplies());
-  
+
     console.log(...formData);
-  
+
     if (form._id.value.trim() == "") {
-      console.log("in post");
-      response = await fetch("/api/crafts", {
-        method: "POST",
-        body: formData,
-      });
+        console.log("in post");
+        response = await fetch("/api/crafts", {
+            method: "POST",
+            body: formData,
+        });
     } else {
 
         console.log("in put");
-      response = await fetch(`/api/crafts/${form._id.value}`,{
-        method:"PUT",
-        body:formData
-      });
+        response = await fetch(`/api/crafts/${form._id.value}`, {
+            method: "PUT",
+            body: formData
+        });
     }
-  
+}
 
 const loadForm = async () => {
-    const url = "https://node-express-h0b8.onrender.com:3000/api/crafts";
+    const url = "https://csce242-assignment15-yxmp.onrender.com:3000/api/crafts";
     try {
         const craft = await Form.fetch(url);
         return await Form;
@@ -305,4 +297,5 @@ const loadForm = async () => {
 
 window.onload = () => {
     initGallery();
-};
+    
+}

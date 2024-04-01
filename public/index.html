@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <title>Assignment 14</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <header id="main-header">
+        <span class="top-title">Buy and Sell Crafts<img id="icon-add" src="images/icon-add.png" class="icons"></span>
+    </header>
+    <main>
+        <div id="add-craft" class="add-craft-dialog w3-modal hidden">
+            <div class="add-craft-info w3-modal-content">
+                <span onclick="document.getElementById('add-craft').style.display='none'"
+                    class="w3-button w3-display-topright">&times;</span>
+                <div id="dialog-details" class="dialog-details">
+                    <form id="add-crafts-form" method="post" class="input-form">
+                        <div id="img-prev-section" class="image-preview-section">
+                            <p>
+                                <img id="img-prev" class="image-preview">                                
+                                <input type="button" id="load-image" value="Upload An Image" onclick="document.getElementById('file-button').click();" />
+                                <input type="file" style="display:none;" id="file-button" name="file-button" accept="image/"/>                                
+                            </p>
+                        </div>
+                        <div id="craft-form-input" class="craft-form-section">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td colspan="2" class="input-header">Changes To Your Craft</td></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td><input type="text" id="name" name="name" required /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Description</td>
+                                        <td><input type="text" id="description" name="description" required /></td>
+                                    </tr>
+                                    <tr id="add-supplies-1">
+                                        <td>Supplies</td>
+                                        <td><input type="text" id="supplies-1" name="supplies-1" required />
+                                            <a href="#" id="add-supplies" type="button">Add Supply</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <section id="supplies-boxes"></section>
+                            </p>
+                            <p>
+                                <button id="add-craft-cancel" type="Cancel">Cancel</button>
+                                <button id="add-craft-save" type="Save">Save</button>
+                            </p>
+                            </tbody>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="main-content">
+            <div id="craft-section" class="main-crafts">
+            </div>
+        </div>
+    </main>
+    <footer id="main-footer">
+        <p>&copy; 2024 Zoe McCuen</p>
+    </footer>
+</body>
+
+</html>
