@@ -15,7 +15,7 @@ a {
 }
 
 a:hover {
-    color: grey;
+    color: crimson;
 }
 
 section {
@@ -58,14 +58,14 @@ section {
 
 button, input[type=button] {
     background: var(--color-purple);
-    color: white;
-    margin: 5px;
+    color: white;    
     text-align: center;
     border: none;
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: .5em;
+    vertical-align: top;
 }
 
 .icons {
@@ -91,10 +91,11 @@ button, input[type=button] {
 .add-craft-info {
     color: black;
     background-color: white;
+    width: 80%;
 }
 
 .input-form {
-    width: 100%;
+    width: auto;
 }
 
 .dialog-details {
@@ -105,19 +106,20 @@ button, input[type=button] {
 .image-preview {
     background-image: url("images/image-placeholder.png");
     width: 200px;
+    margin-bottom: 10px;
     height: 300px;     
 }
 
 .image-preview-section {    
     text-align: center;
     display: inline-block;        
-    padding: 10px;
+    padding: 10px;    
     width: 225px;
 }
 
 .craft-form-section {        
     display: inline-block;       
-    width: 300px; 
+    width: 400px;
     padding: 10px;
     vertical-align: top;
     text-align: left;
@@ -157,8 +159,37 @@ h3 {
     color: black;
 }
 
+textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.full-input {
+    width: 100%;
+}
+
+.short-input {
+    width: 62%;
+    margin-right: 7px;
+    vertical-align: top;
+}
+
 td {
+    vertical-align: top;
+}
+
+tr {
+    vertical-align: top;        
+}
+
+td.left {
+    text-align: left;
+    vertical-align: top;
+}
+
+td.right {
     text-align: right;
+    vertical-align: top;
 }
 
 main {
@@ -189,6 +220,8 @@ main {
 }
 
 
+/* Navigation */
+
 
 /* Typopgraphy */
 body {
@@ -217,7 +250,7 @@ body {
 @media (min-width: 900px) {
 
     .main-crafts .craft-card {
-        max-width: calc(75% - 20px);
+        max-width: calc(80% - 20px);
         /* Two items per row for smaller screens */
     }
 

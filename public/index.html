@@ -28,32 +28,31 @@
                             </p>
                         </div>
                         <div id="craft-form-input" class="craft-form-section">
-                            <table>
+                            <table id="supplies-table">
                                 <thead>
                                     <tr>
                                         <td colspan="2" class="input-header">Changes To Your Craft</td></tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Name</td>
-                                        <td><input type="text" id="name" name="name" required /></td>
+                                        <td class="right">Name</td>
+                                        <td class="left"><input class="full-input" type="text" id="name" name="name" required /></td>
                                     </tr>
                                     <tr>
-                                        <td>Description</td>
-                                        <td><input type="text" id="description" name="description" required /></td>
+                                        <td class="right">Description</td>
+                                        <td class="left"><textarea id="description" name="description" required></textarea></td>
                                     </tr>
-                                    <tr id="add-supplies-1">
-                                        <td>Supplies</td>
-                                        <td><input type="text" id="supplies-1" name="supplies-1" required />
-                                            <a href="#" id="add-supplies" type="button">Add Supply</a>
+                                    <tr id="add-supplies">
+                                        <td class="right">Supplies</td>
+                                        <td class="left"><input class="short-input" type="text" id="supplies-0" name="supplies-0" required />
+                                            <button id="add-supply" type="button">Add Supply</button>
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>
-                            <section id="supplies-boxes"></section>
+                            </table>                            
                             </p>
                             <p>
-                                <button id="add-craft-cancel" type="Cancel">Cancel</button>
+                                <button id="add-craft-cancel" type="reset">Cancel</button>
                                 <button id="add-craft-save" type="Save">Save</button>
                             </p>
                             </tbody>

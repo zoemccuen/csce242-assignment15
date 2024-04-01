@@ -120,7 +120,8 @@ const modalClose = (theName) => {
 }
 
 const loadCraft = async () => {
-    const url = "https://csce242-assignment15-yxmp.onrender.com:3000/api/crafts";
+    //const url = "https://node-express-h0b8.onrender.com:3000/api/crafts";
+    const url = "http://localhost:3000/api/crafts";
     try {
         const craft = await Craft.fetch(url);
         return await craft;
@@ -129,8 +130,6 @@ const loadCraft = async () => {
     }
 }
 
-
-
 // It bugs me when the JSON has lowercase to start the supply names, so this fixes it
 const toTitleCase = str => {
     return str.replace(/\w\S*/g, txt => {
@@ -138,7 +137,32 @@ const toTitleCase = str => {
     });
 }
 
+//If the input for supplies is not empty, then add a new text input to the form and drop the button
+const addSupplies = () => {
+    const suppliesTable = document.getElementById("supplies-table");    
+    const currentSupplies = suppliesTable.querySelectorAll("input.short-input");
+    const lastRow = document.getElementById("add-supplies");
+    let supplyCount = currentSupplies.length;
+    if (currentSupplies[supplyCount - 1].value !== "") {
+        const newRow = document.createElement("tr");
+        let newSupplyData = "<td class='right'>&nbsp;</td>";
+        newSupplyData += "<td class='left'>";
+        newSupplyData += "<input class='short-input' type='text' id='supplies-" + supplyCount + "'";
+        newSupplyData +=  " value='" + currentSupplies[supplyCount - 1].value + "' required /></td></tr>";
+        newRow.innerHTML = newSupplyData;
+        // Check if lastRow is a direct child of suppliesTable
+        if (lastRow.parentNode === suppliesTable.querySelector("tbody")) {
+            suppliesTable.querySelector("tbody").insertBefore(newRow, lastRow);
+            document.getElementById("supplies-0").value = "";
+        } else {
+            console.error("Error: lastRow is not a direct child of suppliesTable.");
+        }
+    }
+}
+
 const initGallery = async () => {
+    const fileInput = document.getElementById('file-button');
+    const imgPrev = document.getElementById('img-prev');    
     let craftArray = await loadCraft();
     let photoGallery = document.getElementById("craft-section");
 
@@ -146,118 +170,25 @@ const initGallery = async () => {
         craftArray.forEach((aCraft) => {
             photoGallery.append(aCraft.renderCraft);
             photoGallery.append(aCraft.expandedSection);
-
         })
     }
     document.getElementById("icon-add").onclick = () => { modalOpen("add-craft"); };
-}
+    document.getElementById("add-craft-cancel").onclick = () => { modalClose("add-craft"); };
+    document.getElementById("add-supply").onclick = () => { addSupplies(); };
+    document.getElementById("add-crafts-form").reset();
 
-class Form {
-    constructor(id, name, image, description, supplies) {
-        this.id = id;
-        this.name = name;
-        this.image = "images/" + image;
-        this.description = description;
-        this.supplies = supplies;
-    }
-
-    static async fetch(url) {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0]; // Get the selected file
+        if (file) {
+            const reader = new FileReader(); // Create a new FileReader object
+            reader.onload = function(e) {
+                imgPrev.src = e.target.result; // Set the image source to the uploaded file's data URL
             }
-            const craftData = await response.json();
-            const craft = craftData.map(craftData => {
-                const { id, name, image, description, supplies } = craftData;
-                return new Craft(id, name, image, description, supplies);
-            });
-            return craft;
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            return [];
+            reader.readAsDataURL(file); // Read the uploaded file as a data URL
+        } else {
+            imgPrev.src = '#'; // Reset the image source if no file is selected
         }
-    }
-
-    get renderForm() {
-
-        const formProject = document.createElement("section");
-        formProject.classList.add("form-card"); // Flex container for top portion
-        const target = "modal-" + this.id;
-
-        const formPhoto = document.createElement("img");
-        formPhoto.src = this.image;
-        formPhoto.classList.add("photo-form");
-        formProject.onclick = () => { modalOpen(target); };
-        formProject.appendChild(formPhoto);
-
-        return formProject;
-    }
-
-    get expandedSection() {
-        const craftDetailCard = document.createElement("section");
-        const target = "modal-" + this.id
-        formDetailCard.classList.add("w3-modal");
-        formDetailCard.id = target;
-
-        const infoDiv = document.createElement("div");
-        infoDiv.classList.add("w3-modal-content");
-        infoDiv.classList.add("expanded-info");
-
-        /* Add the next div which will contain the Content of the modal */
-        const contentDiv = document.createElement("div");
-        // contentDiv.classList.add("w3-container");
-
-        /* Add Close Button for Modal */
-        const closeButton = document.createElement("span");
-        closeButton.classList.add("w3-button");
-        closeButton.classList.add("w3-display-topright");
-        closeButton.classList.add("close-button");
-        closeButton.onclick = () => { modalClose(target); };
-        closeButton.innerHTML = "&times;";
-
-        /* Put close button into the container for the expanded info card */
-        contentDiv.appendChild(closeButton);
-
-        /* Create an image element for the craft project */
-        const formPhoto = document.createElement("img");
-        formPhoto.src = this.image;
-        formPhoto.classList.add("form-photo-small");
-
-        /* Create header for the title */
-        const heading = document.createElement("h2");
-        heading.classList.add("form-details-header");
-        heading.innerText = this.name;
-
-        /* Create the text div and elements NEED TO GO OVER MORE*/
-        const formDetails = document.createElement("p");
-        let formText = "";
-        craftText += "<p>" + this.description + "</p>";
-        craftText += "<p><h3>Supplies Needed</h3></p>";
-        craftText += "<ul>";
-        this.supplies.forEach((formSupply) => {
-            formText += "<li>" + toTitleCase(formSupply) + "</li>";
-        });
-        formText += "</li>";
-
-        formDetails.innerHTML = formText;
-
-        /* Create div to contain the expanded text and image */
-        const infoCard = document.createElement("div");
-        infoCard.classList.add("craft-details");
-        infoCard.appendChild(heading);
-        infoCard.appendChild(craftDetails);
-
-        /* Put InfoCard into the modal content under the close button */
-        contentDiv.appendChild(infoCard);
-
-        /* Add the inside stuff to the modal dialog */
-        infoDiv.appendChild(formPhoto);
-        infoDiv.appendChild(contentDiv);
-        craftDetailCard.appendChild(infoDiv);
-
-        return formDetailCard;
-    }
+    });    
 }
 
 const addEditCraft = async (e) => {
@@ -285,23 +216,6 @@ const addEditCraft = async (e) => {
     }
 }
 
-const loadForm = async () => {
-    const url = "https://csce242-assignment15-yxmp.onrender.com:3000/api/crafts";
-    try {
-        const craft = await Form.fetch(url);
-        return await Form;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-const resetForm = () => {
-    document.getElementByID("craft-form").reset();
-    document.getElementByID("supplies-list").innerHTML = "";
-    document.getElementByID("preview").src = "https://place-hold.it/200x300";
-}
-
 window.onload = () => {
     initGallery();
-    
 }
