@@ -2,22 +2,23 @@ const express = require("express");
 const app = express();
 const Joi = require("joi");
 const multer = require("multer");
+const mongoose = require("mongoose");
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 app.use(express.json());
 const cors = require("cors");
 app.use(cors());
 
-const mongoose = require("mongoose");
-
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/images/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
+	destination: (req, file, cb) => {
+		cb(null, "./public/images/");
+	},
+	filename: (req, file, cb) => {
+		cb(null, file.originalname);
+	},
 });
+
+const upload = multer({ storage: storage });
 
 
 
@@ -345,6 +346,25 @@ app.get("/api/crafts", (req, res) => {
         }];
     console.log("/api/crafts/ called. Returning json");
     res.json(crafts);
+});
+
+app.post("/api/crafts", upload.single("image"), (req, res) => {
+    const result = validateCraft(req.body);
+    if (result.error) {
+        res.status(400).send(result.error.details[0].message);
+    }
+    const craft = {
+        _id: crafts.length +1,
+        name: req.body.name,
+        description: req.body.description,
+        supplies: req.body.supplies.split(",")
+    };
+    if (req.file) {
+        craft.image = req.file.filename;
+    }
+    crafts.push(craft);
+    res.send(crafts);
+
 });
 
 function validateCraft(craft) {
