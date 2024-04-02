@@ -123,7 +123,7 @@ const modalClose = (theName) => {
 }
 
 const loadCraft = async () => {
-    const url = "https://csce242-assignment15-yxmp.onrender.com:3001/api/crafts";
+    const url = "https://csce242-assignment15-yxmp.onrender.com:10000/api/crafts";
     try {
         const craft = await Craft.fetch(url);
         return await craft;
