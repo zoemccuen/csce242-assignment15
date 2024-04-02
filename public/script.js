@@ -123,7 +123,8 @@ const modalClose = (theName) => {
 }
 
 const loadCraft = async () => {
-    const url = "https://csce242-assignment15-yxmp.onrender.com:3000/api/crafts";
+    //const url = "https://node-express-h0b8.onrender.com:3000/api/crafts";
+    const url = "http://localhost:3000/api/crafts";
     try {
         const craft = await Craft.fetch(url);
         return await craft;
@@ -142,7 +143,7 @@ const toTitleCase = str => {
 //If the input for supplies is not empty, then add a new text input to the form and drop the button
 const addSupplies = () => {
     const theForm = document.getElementById("add-crafts-form");
-    const suppliesTable = document.getElementById("supplies-table");
+    const suppliesTable = document.getElementById("supplies-section");
     const currentSupplies = suppliesTable.querySelectorAll("input.short-input");
     const lastRow = document.getElementById("add-supplies");
     let supplyCount = currentSupplies.length;
@@ -168,7 +169,14 @@ const initGallery = async () => {
     const imgPrev = document.getElementById('img-prev');
     let craftArray = await loadCraft();
     let photoGallery = document.getElementById("craft-section");
+    const theTable = document.getElementById('supplies-section');
 
+    let tableHTML = '<thead></thead><tbody><tr id="add-supplies"><td class="right">Supplies</td>';
+    tableHTML += '<td class="left"><input class="short-input" type="text" id="supplies-0" name="supplies-0" required />';
+    tableHTML += '<button id="add-supply" type="button">Add Supply</button></td></tr></tbody>';
+
+    theTable.innerHTML = tableHTML;
+    
     if (craftArray !== undefined && craftArray.length > 0) {
         craftArray.forEach((aCraft) => {
             photoGallery.append(aCraft.renderCraft);
@@ -195,20 +203,35 @@ const initGallery = async () => {
     });
 }
 
-const addEditCraft = async () => {
+const addEditCraft = async (e) => {
+    e.preventDefault();
     const form = document.getElementById("add-crafts-form");
     const formData = new FormData(form);
-    const file = document.getElementById("file-button").files[0];
-    formData.append('image', file);
-    let response;    
-    console.log(...formData);
+    formData.append("supplies", getSupplies());
+    for (let i = 0; i < getSupplies().length; i++) {
+        formData.delete("supplies-" + i);
+    }
+    let response;
+
     console.log("in post");
     response = await fetch("/api/crafts", {
         method: "POST",
         body: formData,
     });
-
+    console.log(response);
     modalClose("add-craft");
+    document.getElementById("craft-section").innerHTML = "";
+    initGallery();
+}
+
+const getSupplies = () => {
+    const inputs = document.querySelectorAll("#supplies-section input");
+    const supplies = [];
+    inputs.forEach((input) => {
+        supplies.push(input.value);
+    });
+
+    return supplies;
 }
 
 window.onload = () => {
